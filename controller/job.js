@@ -14,7 +14,7 @@ const index = async (req, res, next) => {
         let page = parseInt(req.query.page) || 1
         let per_page = parseInt(req.query.per_page) || 2
 
-        let sort = {}
+        let sort = {name: 1}
         let sort_by = req.query.sort
 
         switch (sort_by) {
