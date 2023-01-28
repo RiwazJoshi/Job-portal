@@ -11,6 +11,12 @@ app.use(express.static('uploads'))
 const jobs_route = require('./routes/job')
 app.use("/api/jobs", jobs_route)
 app.use(require('./routes/auth'))
+const fileUpload = require("express-fileupload");
+app.use(
+    fileUpload({
+      useTempFiles: true
+    })
+);
 
 
 

@@ -3,6 +3,9 @@ const express = require('express')
 const multer = require('multer')
 const { parse } = require('dotenv')
 const upload = multer({ dest: 'uploads/' })
+const cloudinary = require('../config/cloudinary')
+const fs = require('fs')
+const path = require('path')
 
 
 const index = async (req, res, next) => {
@@ -14,7 +17,7 @@ const index = async (req, res, next) => {
         let page = parseInt(req.query.page) || 1
         let per_page = parseInt(req.query.per_page) || 2
 
-        let sort = {name: 1}
+        let sort = { name: 1 }
         let sort_by = req.query.sort
 
         switch (sort_by) {
@@ -92,18 +95,40 @@ const index = async (req, res, next) => {
 }
 const store = async (req, res, next) => {
     try {
-        let images = req.files.map(el => el.filename)
+        console.log(req.file);
+        return
+        const { path } = req.file
+        const result = await cloudinary.uploader.upload(path)
+        // let images = req.files.map(el => el.filename)
         let job = await Job.create({
             ...req.body,
-            images: images,
+            image: result.secure_url,
             created_by: req.body.name
         })
-        res.send(job)
+        await job.save()
+        fs.unlinkSync(path)
+
     }
     catch (err) {
-        next(err)
+        // next(err)
+        console.log(err);
     }
 }
+// const store = async (req, res, next) => {
+//     try {
+//         console.log(req.files);
+//         let images = req.files.map(el => el.filename)
+//         let job = await Job.create({
+//             ...req.body,
+//             images: images,
+//             created_by: req.body.name
+//         })
+//         res.send(job)
+//     }
+//     catch (err) {
+//         next(err)
+//     }
+// }
 const update = async (req, res, next) => {
     try {
         let job = await Job.findByIdAndUpdate(req.params.id, { ...req.body }, {
