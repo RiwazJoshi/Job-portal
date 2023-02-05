@@ -1,11 +1,23 @@
 // const uploadImages = require('../middleware/multer')
-const cloudinary = require('cloudinary').v2
+// const cloudinary = require('cloudinary').v2
+var cloudinary = require('cloudinary').v2;
 require('dotenv').config()
-cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.API_KEY,
-    api_secret: process.env.API_SECRET,
-});
+
+
+
+
+
+
+
+// cloudinary.config({
+
+//     cloud_name: 'dw84ekvpb',
+//     api_key: "226321283569126",
+//     api_secret: "0LeXCt8XuL2sD2lvv3KSyJMfAbA"
+// });
+// cloud_name: process.env.CLOUD_NAME,
+// api_key: process.env.API_KEY,
+// api_secret: process.env.API_SECRET,
 
 
 module.exports = cloudinary
@@ -46,7 +58,7 @@ module.exports = cloudinary
 //     })
 // }
 
-// module.exports = uploads 
+// module.exports = uploads
 
 // module.exports = cloudinary
 // cloudinary.js

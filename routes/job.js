@@ -1,11 +1,18 @@
 const express = require('express');
 const router = express.Router();
 
-const upload = require('../middleware/multer')
+// const upload = require('../middleware/multer')
 const { index, store, update, remove } = require('../controller/job');
 const { authenticate, isProvider } = require('../middleware/auth')
-// const uploadImages = require('../middleware/multer')
-const multer = require('../middleware/multer')
+const uploadImage = require('../middleware/multer')
+
+// const multer = require('../middleware/multer')
+
+// const multer = require('multer')
+// const upload = multer()
+// const formidable = require('formidable');
+
+// const sendImage = require('../middleware/formidable')
 
 
 router.get("", index)
@@ -35,8 +42,23 @@ router.get("", index)
 //         imageUrl: cloudFile.url
 //     })
 // }, update)
-router.post("", authenticate, isProvider, upload.single('image'), store)
-router.put("/:id", authenticate, isProvider, upload.single('image'),  update)
+
+// router.post("", authenticate, isProvider,uploadImages, store)
+
+
+
+
+// router.post("", authenticate, isProvider, sendImage, store)
+// router.post("",  store)
+// router.post("", upload.single("image"), (req, res, next) => {
+// router.post("", upload.any(), (req, res, next) => {
+//     console.log(req.file)
+//     console.log(req.files)
+// console.log(req.body)
+
+// })
+router.post("", authenticate, isProvider,uploadImage, store)
+router.put("/:id", authenticate, isProvider, update)
 router.delete("/:id", authenticate, isProvider, remove)
 
 module.exports = router;

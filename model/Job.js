@@ -44,13 +44,13 @@ const JobSchema = new Schema({
         type: Date,
         required: true
     },
-    images: [String],
+    // images: [String],
 
-    created_by: {
-        type: String,
-        ref: "User",
-        required: true
-    },
+    // created_by: {
+    //     type: String,
+    //     ref: "User",
+    //     required: true
+    // },
 
     description: {
         type: String

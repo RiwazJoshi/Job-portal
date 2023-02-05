@@ -1,12 +1,12 @@
 const Job = require('../model/Job')
-const express = require('express')
-const multer = require('multer')
-const { parse } = require('dotenv')
-const upload = multer({ dest: 'uploads/' })
+// const express = require('express')
+// const multer = require('multer')
+// const { parse } = require('dotenv')
+// const upload = multer({ dest: 'uploads/' })
 const cloudinary = require('../config/cloudinary')
 const fs = require('fs')
 const path = require('path')
-
+const DatauriParser = require('datauri/parser');
 
 const index = async (req, res, next) => {
 
@@ -93,35 +93,106 @@ const index = async (req, res, next) => {
     }
 
 }
+// const store = async (req, res, next) => {
+    // try {
+    //     console.log(req.files);
+    //     console.log(req.file);
+
+    //     const { path } = req.file
+    //     const result = await cloudinary.uploader.upload(req.file.tempFilePath, {
+    //         public_id: `${Date.now()}`, 
+    //         resource_type: "auto"
+    //     })
+    //     // let images = req.files.map(el => el.filename)
+    //     let job = await Job.create({
+    //         ...req.body,
+    //         image: result.secure_url,
+    //         created_by: req.body.name
+    //     })
+    //     await job.save()
+    //     fs.unlinkSync(path)
+
+    // }
+//     try {
+//         const parser = new DatauriParser();
+//         // req.body.in_stock = req.body.in_stock || 0;
+//         let images = [];
+
+//         /* checking if req.files is iterable or not. */
+//         if (req.files && typeof req.files[Symbol.iterator] === "function") {
+
+//             for (el of req.files) {
+//                 console.log(el);
+//                 let res = parser.format(path.extname(el.originalname).toString(), el.buffer)
+//                 let cloduinary_data = await cloudinary.uploader.upload(res.content)
+//                 // let cloduinary_data = await cloudinary_upload(res.content)
+//                 images.push(cloduinary_data.url);
+//             }
+//         }
+        
+//         let job = await Job.create({ ...req.body, images});
+//         res.send(job)
+//         // console.log(res);~+
+//     }
+
+
+//     catch (err) {
+//         // next(err)
+//         console.log(err);
+//     }
+// }
+
+// const store = async (req, res, next) => {
+
+//     try {
+// const DatauriParser = require('datauri/parser');
+
+
+//     const parser = new DatauriParser();
+//     req.body.in_stock = req.body.in_stock || 0;
+//     let images = [];
+
+//     /* checking if req.files is iterable or not. */
+//     if (req.files && typeof req.files[Symbol.iterator] === "function") {
+
+//         for (el of req.files) {
+//             let res = parser.format(path.extname(el.originalname).toString(), el.buffer)
+//             // let cloduinary_data = await cloudinary.uploader.upload(res.content)
+//             let cloduinary_data = await cloudinary_upload(res.content)
+//             images.push(cloduinary_data.url);
+//         }
+//     }
+
+//     let product = await Product.create({ ...req.body, images, created_by: req.decoded_token?._id });
+//     res.send(product)
+// }
+// catch (err) {
+//     next(err)
+// }
+
 const store = async (req, res, next) => {
     try {
-        console.log(req.file);
-        return
-        const { path } = req.file
-        const result = await cloudinary.uploader.upload(path)
-        // let images = req.files.map(el => el.filename)
+        // console.log(req.file);
+        // let images = req.file.map(el => el.filename)
         let job = await Job.create({
             ...req.body,
-            image: result.secure_url,
             created_by: req.body.name
         })
-        await job.save()
-        fs.unlinkSync(path)
-
+        res.send(job)
     }
     catch (err) {
-        // next(err)
-        console.log(err);
+        next(err)
     }
 }
+
 // const store = async (req, res, next) => {
 //     try {
-//         console.log(req.files);
+//         console.log(req.files)
 //         let images = req.files.map(el => el.filename)
 //         let job = await Job.create({
 //             ...req.body,
 //             images: images,
-//             created_by: req.body.name
+//             created_by: req.user._id
 //         })
 //         res.send(job)
 //     }
@@ -129,6 +200,14 @@ const store = async (req, res, next) => {
 //         next(err)
 //     }
 // }
+
+
+
+
+
+
+
+
 const update = async (req, res, next) => {
     try {
         let job = await Job.findByIdAndUpdate(req.params.id, { ...req.body }, {
