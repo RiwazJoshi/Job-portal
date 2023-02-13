@@ -6,7 +6,9 @@ require('dotenv').config()
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 app.use(bodyParser.raw());
-app.use(cors())
+app.use(cors({
+    origin:"https://job-portal-riwazjoshi.vercel.app/api"
+}))
 app.use(bodyParser.urlencoded({ extended: true }))
 
 
