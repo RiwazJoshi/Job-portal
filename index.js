@@ -1,10 +1,12 @@
 const express = require("express")
 const app = express()
+const cors = require('cors')
 require('./config/database')
 require('dotenv').config()
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 app.use(bodyParser.raw());
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 
@@ -46,6 +48,6 @@ app.use((err, req, res, next,) => {
         errors
     })
 })
-app.listen((process.env.PORT || 8000), "0,0,0,0" , () => {
+app.listen((process.env.PORT || 8000), () => {
     console.log("server started");
 })
