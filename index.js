@@ -48,6 +48,6 @@ app.use((err, req, res, next,) => {
         errors
     })
 })
-app.listen((process.env.PORT || 8000), "0.0.0.0",() => {
+app.listen((process.env.PORT || 8000), "0.0.0.0/0",() => {
     console.log("server started");
 })
